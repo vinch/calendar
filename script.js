@@ -106,17 +106,21 @@ v.Calendar = {
       , container = eventNode.parentNode;
   
     container.removeChild(eventNode);
-  
+
     for (var i=0; i<data.length; i++) {
+      startLTS = new Date(0, 0, 0, Math.floor(data[i].start/60)+9, data[i].start%60).toLocaleTimeString()
+      endLTS = new Date(0, 0, 0, Math.floor(data[i].end/60)+9, data[i].end%60).toLocaleTimeString()
+
       html = v.TPL.render(eventNode.outerHTML, {
           width: data[i].width
         , height: data[i].height
         , left: data[i].left
         , top: data[i].top
         , id: data[i].id
-        , start: new Date(0, 0, 0, Math.floor(data[i].start/60)+9, data[i].start%60).toLocaleTimeString().substr(0, 5)
-        , end: new Date(0, 0, 0, Math.floor(data[i].end/60)+9, data[i].end%60).toLocaleTimeString().substr(0, 5)
+        , start: startLTS.split(':')[0] + ':' + startLTS.split(':')[1] + ' ' + startLTS.split(':')[2].split(' ')[1]
+        , end: endLTS.split(':')[0] + ':' + endLTS.split(':')[1] + ' ' + endLTS.split(':')[2].split(' ')[1]
       });
+      
       container.innerHTML += html;
     }
   }
